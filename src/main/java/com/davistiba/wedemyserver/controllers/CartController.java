@@ -22,7 +22,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@Secured(value = "ROLE_STUDENT")
+// @Secured(value = "ROLE_STUDENT")
 @RequestMapping(path = "/cart", produces = MediaType.APPLICATION_JSON_VALUE)
 public class CartController {
 

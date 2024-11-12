@@ -45,7 +45,7 @@ public class WedemyserverApplication {
                         .allowCredentials(true)
                         .exposedHeaders("*")
                         .maxAge(3600L)
-                        .allowedOriginPatterns("http://localhost:[*]", FRONTEND_URL)
+                        .allowedOriginPatterns(FRONTEND_URL)
                         .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS");
             }
         };

@@ -26,8 +26,8 @@ server:
       force: true
 spring:
   datasource:
-    password: ${MYSQL_PASSWORD}
-    url: ${MYSQL_HOST}
+    password: #${MYSQL_PASSWORD}
+    url: jdbc:mysql://${MYSQL_HOST}:3306/${MYSQL_DB_NAME}
     username: ${MYSQL_USERNAME}
   jpa:
     hibernate:
@@ -47,7 +47,7 @@ spring:
     host: ${REDIS_HOST}
     password: ${REDIS_PASSWORD}
     port: ${REDIS_PORT}
-    # url: ${REDIS_URL} #Optional. Full URi. Will override [host, password, port] above
+    url: ${REDIS_URL} #Optional. Full URi. Will override [host, password, port] above, commented out for localhost
   security:
     oauth2:
       client:

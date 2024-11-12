@@ -30,7 +30,7 @@ import java.util.Map;
  */
 @RestController
 @RequestMapping(path = "/checkout", produces = MediaType.APPLICATION_JSON_VALUE)
-@Secured(value = "ROLE_STUDENT")
+// @Secured(value = "ROLE_STUDENT")
 public class CheckoutController {
 
     private final BraintreeGateway gateway;

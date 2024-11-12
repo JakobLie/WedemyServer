@@ -19,6 +19,8 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.session.HttpSessionEventPublisher;
+import org.springframework.session.web.http.HeaderHttpSessionIdResolver;
+import org.springframework.session.web.http.HttpSessionIdResolver;
 
 @Configuration
 @EnableWebSecurity
@@ -35,14 +37,14 @@ public class SecurityConfig {
     IF YOU DON'T WANT TO USE _COOKIES_ FOR SESSIONS, SIMPLY UNCOMMENT THIS BLOCK BELOW TO USE a SPECIAL HEADER
     "X-AUTH-TOKEN" (expires too) INSTEAD. BUT YOU WILL ALSO NEED TO *MANUALLY* CONFIGURE YOUR FRONTEND TO STORE
     AND RE-USE THIS TOKEN AFTER SUCCESSFUL LOGIN.
-     */
-    /*----------------------------------------------------
-      @Bean
-      public HttpSessionIdResolver sessionIdResolver() {
-          //SET EXPIRE TIME IN application.yml, similar to cookies:: `session.cookie.max-age`
-          return HeaderHttpSessionIdResolver.xAuthToken();
-      }
-    //----------------------------------------------------*/
+    */
+
+    // @Bean
+    // public HttpSessionIdResolver sessionIdResolver() {
+    //     //SET EXPIRE TIME IN application.yml, similar to cookies:: `session.cookie.max-age`
+    //     return HeaderHttpSessionIdResolver.xAuthToken();
+    // }
+
 
     @Autowired
     private CustomOAuthUserService googleOauthService;
@@ -50,25 +52,40 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthSuccessHandler successHandler;
 
+    // @Bean
+    // @Order(1)
+    // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    //     http.cors().and().httpBasic(Customizer.withDefaults())
+    //             .oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
+    //             .and().successHandler(successHandler)
+    //             .and().authorizeHttpRequests((authz) ->
+    //                     authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
+    //                             .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
+    //                             .antMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
+    //                             .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
+    //                             .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
+    //                             .anyRequest().authenticated())
+    //             .apply(new MyCustomFilterSetup(successHandler));
+
+    //     // SESSION and CSRF (you may disable CSRF)
+    //     return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+    //             .ignoringAntMatchers("/oauth2/**", "/auth/**")
+    //             .and().sessionManagement(s -> s.maximumSessions(2)).build();
+    // }
+
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().httpBasic(Customizer.withDefaults())
                 .oauth2Login().userInfoEndpoint().oidcUserService(googleOauthService)
                 .and().successHandler(successHandler)
-                .and().authorizeHttpRequests((authz) ->
-                        authz.antMatchers("/index.html", "/", "/auth/**", "/favicon.ico", "/login/**").permitAll()
-                                .antMatchers(HttpMethod.GET, "/courses/**", "/objectives/**", "/lessons/**", "/reviews/**").permitAll()
-                                .antMatchers("/profile/**", "/user/**").hasAuthority(UserRole.ROLE_STUDENT.name())
-                                .antMatchers(HttpMethod.GET, "/swagger-ui/**", "/swagger-ui.html", "/v3/api-docs/**").permitAll()
-                                .antMatchers("/admin/**").hasAuthority(UserRole.ROLE_ADMIN.name())
-                                .anyRequest().authenticated())
+                .and().authorizeHttpRequests((authz) -> authz.anyRequest().permitAll()) // Allow all requests
                 .apply(new MyCustomFilterSetup(successHandler));
 
-        //SESSION and CSRF (you may disable CSRF)
-        return http.csrf().csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
-                .ignoringAntMatchers("/oauth2/**", "/auth/**")
-                .and().sessionManagement(s -> s.maximumSessions(2)).build();
+        // Disable CSRF if it is not required
+        return http.csrf().disable()
+                .sessionManagement(s -> s.maximumSessions(2))
+                .build();
     }
 
     @Bean

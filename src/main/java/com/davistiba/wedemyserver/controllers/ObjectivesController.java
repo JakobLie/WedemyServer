@@ -30,7 +30,7 @@ public class ObjectivesController {
     private CourseRepository courseRepository;
 
     @PostMapping(value = "/")
-    @Secured(value = "ROLE_ADMIN")
+    // @Secured(value = "ROLE_ADMIN")
     @Transactional
     public ResponseEntity<MyCustomResponse> addNewObjectives(@RequestBody @Valid ObjectivesDTO objDTO) {
         List<String> objectives = objDTO.getObjectives();

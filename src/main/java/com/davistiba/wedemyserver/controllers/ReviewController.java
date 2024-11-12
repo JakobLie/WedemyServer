@@ -35,7 +35,7 @@ public class ReviewController {
 
 
     @PostMapping(path = "/")
-    @Secured(value = "ROLE_STUDENT")
+    // @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<MyCustomResponse> addCourseReview(@Valid @RequestBody ReviewRequest review, HttpSession session) {
         try {
             Integer userId = MyUserDetailsService.getSessionUserId(session);
@@ -47,7 +47,7 @@ public class ReviewController {
     }
 
     @PutMapping(path = "/id/{id}")
-    @Secured(value = "ROLE_STUDENT")
+    // @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<MyCustomResponse> editCourseReview(@PathVariable Integer id,
                                                              @Valid @RequestBody ReviewRequest review) {
         try {
@@ -59,7 +59,7 @@ public class ReviewController {
     }
 
     @GetMapping(path = "/mine/c/{courseId}")
-    @Secured(value = "ROLE_STUDENT")
+    // @Secured(value = "ROLE_STUDENT")
     public ResponseEntity<Review> getMyReviewOnCourse(@PathVariable Integer courseId, HttpSession session) {
         Integer userId = MyUserDetailsService.getSessionUserId(session);
         var reviewOptional = reviewRepository.findByUserIdAndCourseId(userId, courseId);

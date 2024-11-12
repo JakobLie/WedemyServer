@@ -2,7 +2,8 @@
 # Learn more: https://docs.spring.io/spring-boot/docs/current/reference/html/application-properties.html
 frontend:
   root:
-    url: http://localhost:5173/  #TODO Replace with your frontend root URL / empty string
+    url: ""
+    # url: http://localhost:5173/  #TODO Replace with your frontend root URL / empty string
 logging:
   level:
     org:
@@ -23,9 +24,10 @@ server:
       force: true
 spring:
   datasource:
-    password: ${MYSQL_PASSWORD}
-    url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&useSSL=false
-    username: root
+    password: #${MYSQL_PASSWORD}
+    url: jdbc:mysql://${MYSQL_HOST}:3306/wedemy?connectionTimeZone=UTC&useSSL=false
+    # url: jdbc:mysql://localhost:3306/wedemy?connectionTimeZone=UTC&useSSL=false
+    username: ${MYSQL_USERNAME}
   jpa:
     hibernate:
       ddl-auto: update #You may chnage to `NONE` in production

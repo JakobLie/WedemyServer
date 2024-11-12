@@ -21,7 +21,7 @@ import java.util.Collections;
 import java.util.Map;
 
 @RestController
-@Secured("ROLE_STUDENT")
+// @Secured("ROLE_STUDENT")
 @RequestMapping(path = "/wishlist", produces = MediaType.APPLICATION_JSON_VALUE)
 public class WishlistController {
 

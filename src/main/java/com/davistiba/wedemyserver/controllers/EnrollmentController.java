@@ -28,7 +28,7 @@ import java.util.*;
 
 @RestController
 @RequestMapping(path = "/enroll", produces = MediaType.APPLICATION_JSON_VALUE)
-@Secured(value = {"ROLE_STUDENT", "ROLE_ADMIN"})
+// @Secured(value = {"ROLE_STUDENT", "ROLE_ADMIN"})
 public class EnrollmentController {
 
     @Autowired

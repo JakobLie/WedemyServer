@@ -14,6 +14,7 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
@@ -52,6 +53,7 @@ public class SecurityConfig {
     @Autowired
     private CustomAuthSuccessHandler successHandler;
 
+    // ORIGINAL AUTH
     // @Bean
     // @Order(1)
     // public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -73,6 +75,7 @@ public class SecurityConfig {
     //             .and().sessionManagement(s -> s.maximumSessions(2)).build();
     // }
 
+    // SECONDARY CUSTOM AUTH (WORKS BUT LOGIN NOT STORED ON DEPLOYMENT)
     @Bean
     @Order(1)
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -87,6 +90,7 @@ public class SecurityConfig {
                 .sessionManagement(s -> s.maximumSessions(2))
                 .build();
     }
+
 
     @Bean
     public AuthenticationManager authManager(AuthenticationConfiguration authConfig) throws Exception {
